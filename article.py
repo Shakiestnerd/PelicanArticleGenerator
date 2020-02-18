@@ -44,6 +44,7 @@ class UI:
         nb = ttk.Notebook(parent, padding=8)
         nb.grid(row=0, column=0, columnspan=4)
         nb.pack(fill=BOTH, expand=True)
+        self.options = options.UserOptions()
         # self.db = None
 
         #####################
@@ -203,6 +204,7 @@ class UI:
         p2_folder_label = ttk.Label(page2, text="Content Folder:")
         p2_folder_label.grid(row=row, column=0, padx=5, pady=5, sticky=E)
         self.p2_folder_value = StringVar()
+        self.p2_folder_value.set(self.options.base_folder)
         self.p2_folder = ttk.Entry(page2, textvariable=self.p2_folder_value)
         self.p2_folder.grid(
             row=row, column=1, columnspan=2, padx=5, pady=5, sticky=W + E
@@ -227,6 +229,7 @@ class UI:
         p2_default_author_label = ttk.Label(page2, text="Default Author:")
         p2_default_author_label.grid(row=row, column=0, padx=5, pady=5, sticky=E)
         self.p2_default_author_value = StringVar()
+        self.p2_default_author_value.set(self.options.author)
         self.p2_default_author = ttk.Entry(
             page2, textvariable=self.p2_default_author_value
         )
@@ -281,7 +284,10 @@ class UI:
         print("File created -> " + f_create)
 
     def save_config(self):
-        pass
+        self.options.author = self.p2_default_author_value.get()
+        self.options.categories = self.p2_categories.get("1.0", END).split("\n")
+        self.options.base_folder = self.p2_folder_value.get()
+        self.options.save_config()
 
     def folder_select(self, tk_var):
         """ folder select button callback"""
