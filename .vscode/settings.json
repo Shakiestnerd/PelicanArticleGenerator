@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "/home/keith/.conda/envs/ProjEuler/bin/python"
+    "python.pythonPath": "/home/keith/.conda/envs/ProjEuler/bin/python",
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
 }
