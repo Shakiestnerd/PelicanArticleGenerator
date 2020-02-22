@@ -8,6 +8,7 @@ __pycache__/
 # VS Code files
 .vscode/
 .pytest_cache/1
+.idea/
 
 # C extensions
 *.so

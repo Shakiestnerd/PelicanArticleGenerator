@@ -41,8 +41,7 @@ class UserOptions:
         config.set("article", "base_folder", self.base_folder)
         config.set("article", "author", self.author)
         config.set("article", "tags", self.favorite_tags)
-        for cat in self.categories:
-            config.set("article", "categories", cat)
+        config.set("article", "categories", "|".join(self.categories))
         config.set("article", "default_type", self.default_type)
         config.write(config_file)
         config_file.close()
