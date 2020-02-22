@@ -84,7 +84,7 @@ class UI:
 
         row += 1
         self.md_or_rst = tk.StringVar()
-        self.md_or_rst.set("md")
+        self.md_or_rst.set(self.options.default_type)
         p1_md_label = ttk.Label(page1, text="File Type:")
         p1_md_label.grid(column=0, row=row, padx=5, pady=5, sticky=W)
         p1_md_or_rst1 = ttk.Radiobutton(
@@ -130,7 +130,7 @@ class UI:
         p1_author_label = ttk.Label(page1, text="Author:")
         p1_author_label.grid(row=row, column=0, padx=5, pady=5, sticky=E)
         self.p1_author_value = StringVar()
-        self.p1_author_value.set("shakiestnerd")
+        self.p1_author_value.set(self.options.author)
         self.p1_author = ttk.Entry(page1, textvariable=self.p1_author_value)
         self.p1_author.grid(
             row=row, column=1, columnspan=2, padx=5, pady=5, sticky=W + E
@@ -148,14 +148,16 @@ class UI:
         ]
         # p1_status_value.set(choices[0])
         self.p1_status_menu = ttk.Combobox(page1, values=choices, state="readonly")
-        self.p1_status_menu.current(0)
+        # make draft be the default option
+        self.p1_status_menu.current(1)
         self.p1_status_menu.grid(row=row, column=1, padx=5, pady=5, sticky=W)
 
         # row 7
         row += 1
         p1_cat_label = ttk.Label(page1, text="Category:")
         p1_cat_label.grid(row=row, column=0, padx=5, pady=5, sticky=E)
-        choices2 = ["Technology", "Reading", "Faith", "Family"]
+        # choices2 = ["Technology", "Reading", "Faith", "Family"]
+        choices2 = self.options.categories
         self.p1_cat_menu = ttk.Combobox(page1, values=choices2)
         self.p1_cat_menu.current(0)
         self.p1_cat_menu.grid(row=row, column=1, padx=5, pady=5, sticky=W)
@@ -264,8 +266,9 @@ class UI:
             art.category = self.p1_cat_menu.get()
             art.tags = self.p1_tags_value.get()
             art.status = self.p1_status_menu.get()
-            art.summary = self.p1_summary.get(1.0, END)
+            art.summary = self.p1_summary.get(1.0, END).strip()
             art.is_recipe = self.p1_recipe_value.get()
+            art.base_folder = self.options.base_folder
             art.save_article()
 
     def make_entry(title, category):

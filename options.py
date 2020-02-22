@@ -25,7 +25,7 @@ class UserOptions:
             config.read(self.init_file)
             self.base_folder = config["article"]["base_folder"]
             self.author = config["article"]["author"]
-            self.categories = config["article"]["categories"]
+            self.categories = config["article"]["categories"].split("|")
             self.favorite_tags = config["article"]["tags"]
             self.default_type = config["article"]["default_type"]
         except KeyError:

@@ -7,7 +7,7 @@ __pycache__/
 
 # VS Code files
 .vscode/
-.pytest_cache/1
+.pytest_cache/
 .idea/
 
 # C extensions

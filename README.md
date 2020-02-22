@@ -2,27 +2,54 @@
 
 This application creates article stubs for writing blog posts using Pelican.
 
-383 is prime, palindrome, sum of first 3 palindromic primes
-101, 131, 151
+[Pelican](1) is a static web site generator.
 
-241 is prime add it to 142 (reversed) = 383
+This application is currently under development.
 
-Is a Woodall prime
-n \* 2^n - 1
+## What it does
 
-primegrid.com
+You run `article.py`, fill in a few fields on the form, click the "Create" button and you have an empty article file that you can use to write your blog post.
 
-## Sci Fi Books
+This allows you to write out several article stubs and once, saving you time and helping you to plan your content more effectively.
 
-Earth Abides - George R Stewart
-The Shadow of the Torturer - Gene Wolfe
-The Chrysalids - John Wyndham
-Inversions - Iain M Banks
-The Sparrow - Mary Doria Russell
-Spin - Robert Charles Wilson
-The Man in the High Castle - Philip K. Dick
-Roadside Picnic - Arkady and Boris Strugatsky
-Wool - Hugh Howey
-House of Suns - Alistair Reynolds
-Enders Game - Orson Scott Card
-A Fire Upon the Deep - Vernor Vinge
+## Assumptions and Conventions
+
+### Categories
+
+1. You are using the Pelican static site generator.
+2. Article categories are folder names inside of your content folder.
+3. The folders **'images', 'pages', and 'static'**, if found in your content folder, are ignored and not considered categories.
+
+### Files
+
+Article files are named with the following format:
+
+> YYYY-MM-DD-document-title-separated-by-dashes
+>
+> **Example:** 2009-10-14-sugary-pecans-or-walnuts.md
+
+Files are saved with these extensions:
+
+- md: Markdown file
+- rst: Restructured text file
+
+### Article
+
+Once an article is created, simply open the article in your favorite text editor and replace the "Insert article here" with your own amazing prose.
+
+Sample Markdown Article:
+
+```md
+---
+
+Title: Sample Article
+Date: 2020-02-21
+Category: Technology
+Tags: python
+Author: shakiestnerd
+Status: draft
+Summary:
+---Insert article here.
+```
+
+[1]: https://blog.getpelican.com/ "Main Pelican Web Site"
