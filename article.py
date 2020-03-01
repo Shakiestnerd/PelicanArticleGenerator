@@ -8,8 +8,8 @@ class UI:
     def __init__(self):
         super().__init__()
         self.options = options.UserOptions()
-        sg.theme("Light Brown 1")  # please make your windows colorful
-        label_size = (10, 1)
+        sg.theme("Reddit")  # please make your windows colorful
+        label_size = (15, 1)
 
         status_choices = [
             "published",
@@ -19,19 +19,34 @@ class UI:
 
         # ------ Menu Definition ------ #
         menu_def = [
-            ["&File", ["&Preferences", "E&xit"]],
+            ["&File", ["E&xit"]],
             ["&Help", ["&Documentation", "&About..."],],
         ]
 
-        layout = [
-            [sg.Menu(menu_def, tearoff=False)],
-            [sg.Text(default_text="Create a new article", font=("Any", 12, "bold"))],
+        frame_layout = [
             [
-                sg.Text("File Type:", size=label_size),
                 sg.Radio(
                     "Markdown", group_id="Type", default=True, size=label_size, key="md"
                 ),
                 sg.Radio("Restructured Text", group_id="Type", key="rst"),
+            ]
+        ]
+
+        frame_layout2 = [
+            [sg.Checkbox(" Recipe", auto_size_text=True, key="Is_Recipe"),]
+        ]
+
+        layout = [
+            [sg.Menu(menu_def, tearoff=False)],
+            [sg.Text("Create a new article", font=("Any", 12, "bold"))],
+            [
+                sg.Text("Content Folder:", size=label_size),
+                sg.Input(default_text=self.options.base_folder, key="Folder"),
+                sg.Button(button_text="..."),
+            ],
+            [
+                sg.Text("", size=label_size),
+                sg.Frame("Format", frame_layout, title_color="blue"),
             ],
             [
                 sg.Text("Title:", size=label_size),
@@ -54,9 +69,17 @@ class UI:
                 sg.Text("Status:", size=label_size),
                 sg.Combo(status_choices, default_value="draft", key="Status"),
             ],
-            [sg.Text("Category:", size=label_size)],
+            [
+                sg.Text("Category:", size=label_size),
+                sg.Listbox(
+                    values=["Listbox 1", "Listbox 2", "Listbox 3"], size=(30, 6)
+                ),
+            ],
             [sg.Text("Tags:", size=label_size), sg.Input(key="Tags")],
-            [sg.Checkbox(" Recipe Article?", auto_size_text=True, key="Is_Recipe")],
+            [
+                sg.Text("", size=label_size),
+                sg.Frame("Special Template", frame_layout2, title_color="blue"),
+            ],
             [
                 sg.Text("Summary:", size=label_size),
                 sg.Multiline(size=(45, 3), key="Summary"),
@@ -66,17 +89,18 @@ class UI:
 
         window = sg.Window("Article Generator", layout)
 
+        # Event dispatch handler
         while True:
             event, values = window.read()
             if event in (None, "Exit"):
                 break
+            elif event == "...":
+                window["Folder"].update(self.load_folder_name())
             elif event in ("Title", "Date"):
                 slug = values["Date"] + "-" + values["Title"].lower().replace(" ", "-")
                 window["Slug"].update(slug)
             elif event == "About...":
                 print("About box")
-            elif event == "Preferences":
-                print("Preferences")
             elif event == "Documentation":
                 print("Documentation")
             elif event == "Generate Article":
@@ -108,6 +132,17 @@ class UI:
             art.is_recipe = values["Is_Recipe"]
             art.base_folder = self.options.base_folder
             art.save_article()
+
+    def load_folder_name(self):
+        folder = sg.PopupGetFolder(
+            "Select your Pelican 'content' folder.",
+            "Select Folder",
+            default_path=self.options.base_folder,
+        )
+        if folder is None:
+            return "Click button to select folder --->"
+        else:
+            return folder
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""Save and retrieve the user options."""
+"""Save and retrieve the user options from articles.ini."""
 import configparser
 import os
 
@@ -11,7 +11,7 @@ class UserOptions:
         self.base_folder = ""
         self.author = ""
         self.categories = []
-        self.favorite_tags = ""
+        self.favorite_tags = []
         self.default_type = "md"
 
         if os.access(self.init_file, os.R_OK):
@@ -25,8 +25,8 @@ class UserOptions:
             config.read(self.init_file)
             self.base_folder = config["article"]["base_folder"]
             self.author = config["article"]["author"]
-            self.categories = config["article"]["categories"].split("|")
-            self.favorite_tags = config["article"]["tags"]
+            self.categories = config["article"]["categories"].split(",")
+            self.favorite_tags = config["article"]["tags"].split(",")
             self.default_type = config["article"]["default_type"]
         except KeyError:
             return
