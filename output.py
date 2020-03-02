@@ -23,7 +23,6 @@ class Output:
             body = self.format_markdown()
         else:
             body = self.format_rst()
-        self.filename = f"{self.slug}.{self.output_type}"
         if os.path.isdir(self.base_folder):
             self.full_file = os.path.join(
                 self.base_folder, self.category, self.filename
@@ -42,7 +41,11 @@ class Output:
         content.append(f"Date: {self.date}\n")
         content.append(f"Category: {self.category}\n")
         content.append(f"Tags: {self.tags}\n")
-        content.append(f"Author: {self.author}\n")
+        if "," in self.author:
+            author_title = "Authors:"
+        else:
+            author_title = "Author:"
+        content.append(f"{author_title} {self.author}\n")
         content.append(f"Status: {self.status}\n")
         if self.summary:
             content.append(f"Summary: {self.summary}\n")

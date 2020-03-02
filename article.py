@@ -1,3 +1,4 @@
+import os
 import PySimpleGUI as sg
 from datetime import date
 import options
@@ -41,8 +42,17 @@ class UI:
             [sg.Text("Create a new article", font=("Any", 12, "bold"))],
             [
                 sg.Text("Content Folder:", size=label_size),
-                sg.Input(default_text=self.options.base_folder, key="Folder"),
-                sg.Button(button_text="..."),
+                sg.Input(
+                    default_text=self.options.base_folder,
+                    key="Folder",
+                    enable_events=True,
+                    disabled=True,
+                ),
+                sg.FolderBrowse(
+                    button_text="...",
+                    initial_folder=self.options.base_folder,
+                    key="Browse",
+                ),
             ],
             [
                 sg.Text("", size=label_size),
@@ -63,6 +73,9 @@ class UI:
                     key="Date",
                     enable_events=True,
                 ),
+                sg.CalendarButton(
+                    "...", key="Date_Pick", target="Date", format="%Y-%m-%d"
+                ),
             ],
             [sg.Text("Author(s):", size=label_size), sg.Input(key="Author")],
             [
@@ -72,7 +85,7 @@ class UI:
             [
                 sg.Text("Category:", size=label_size),
                 sg.Listbox(
-                    values=["Listbox 1", "Listbox 2", "Listbox 3"], size=(30, 6)
+                    values=self.options.categories, key="Categories", size=(30, 6)
                 ),
             ],
             [sg.Text("Tags:", size=label_size), sg.Input(key="Tags")],
@@ -94,55 +107,87 @@ class UI:
             event, values = window.read()
             if event in (None, "Exit"):
                 break
-            elif event == "...":
-                window["Folder"].update(self.load_folder_name())
+            elif event == "Folder":
+                self.options.base_folder = values["Folder"]
+                categories = self.category_scan(self.options.base_folder)
+                if categories:
+                    window["Categories"].update(categories)
             elif event in ("Title", "Date"):
                 slug = values["Date"] + "-" + values["Title"].lower().replace(" ", "-")
                 window["Slug"].update(slug)
             elif event == "About...":
-                print("About box")
+                sg.popup(
+                    "About Article Generator",
+                    "Version 0.1",
+                    "Author: Shakiestnerd",
+                    "http://www.canofworms.com",
+                    title="About",
+                )
             elif event == "Documentation":
                 print("Documentation")
             elif event == "Generate Article":
-                self.create_article()
+                self.create_article(values)
 
             print(event, values)
 
         window.close()
 
     def create_article(self, values):
-        filename = values["Slug"]
-        folder = self.options.base_folder
-        if values["md"]:
-            ext = "md"
-        else:
-            ext = "rst"
-        message = f"Create article file:\n{folder}/{filename}.{ext}?"
-        if sg.PopupYesNo(message):
-            art = Output()
-            art.output_type = ext
+        art = Output()
+
+        try:
+            art.filename = values["Slug"]
+
+            if values["md"]:
+                art.output_type = "md"
+            else:
+                art.output_type = "rst"
+
             art.title = values["Title"]
             art.slug = values["Slug"]
             art.date = values["Date"]
             art.author = values["Author"]
-            art.category = values["Category"]
+            if values["Categories"]:
+                art.category = values["Categories"][0]
+            else:
+                raise ValueError("Select a category from the list.")
             art.tags = values["Tags"]
             art.status = values["Status"]
             art.summary = values["Summary"].strip()
             art.is_recipe = values["Is_Recipe"]
-            art.base_folder = self.options.base_folder
-            art.save_article()
+            art.base_folder = values["Folder"]
+            art.full_file = os.path.join(
+                art.base_folder, art.category, art.filename, art.output_type
+            )
+            message = ["Create article file:", art.full_file]
+            if sg.PopupYesNo(message, title="Generate Article?"):
+                art.save_article()
 
-    def load_folder_name(self):
-        folder = sg.PopupGetFolder(
-            "Select your Pelican 'content' folder.",
-            "Select Folder",
-            default_path=self.options.base_folder,
-        )
-        if folder is None:
-            return "Click button to select folder --->"
-        else:
-            return folder
+        except ValueError as err:
+            sg.PopupError(err.args)
+
+    def category_scan(self, folder):
+        cat_list = []
+        if len(folder) == 0:
+            sg.popup(
+                "Please select the pelican content folder.", title="Warning",
+            )
+            return
+        elif "content" not in folder:
+            sg.popup(
+                "The selected folder does not appear",
+                "to be a Pelican 'content' folder.",
+                title="Warning",
+            )
+            return
+        if os.path.isdir(folder):
+            cats = os.listdir(folder)
+            for item in cats:
+                test = os.path.join(folder, item)
+                if os.path.isdir(test):
+                    if item not in ["images", "pages", "static"]:
+                        cat_list.append(item)
+        return cat_list
 
 
 if __name__ == "__main__":
