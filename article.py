@@ -266,7 +266,8 @@ class UI:
         return cat_list
 
     def open_article(self, filepath):
-
+        """ Open the newly minted article in the default editor for your OS
+        """
         if platform.system() == "Darwin":  # macOS
             subprocess.call(("open", filepath))
         elif platform.system() == "Windows":  # Windows
