@@ -1,22 +1,38 @@
-import tkinter as tk
-from tkinter import ttk
-import tkSimpleDialog
-import article
-# import tkinter.font as tkFont
+import PySimpleGUI as sg
+import webbrowser
 
 
-class AboutDialog(tkSimpleDialog.Dialog):
+def about():
+    layout = [
+        [sg.Text("Article Generator", font=("Arial", 12), justification="center")],
+        [sg.Text("Version: 0.5")],
+        [
+            sg.Text(
+                "Create a new blank article in markdown\nor restructured text format.\n"
+            )
+        ],
+        [sg.Text("Author: Shakiestnerd")],
+        [sg.Text("License: MIT License")],
+        [
+            sg.Text(
+                "http://www.canofworms.com",
+                key="website",
+                font=("All", 10, "underline"),
+                text_color="blue",
+                enable_events=True,
+            )
+        ],
+        [sg.OK()],
+    ]
 
-    def body(self, master):
-
-        msg = 'Article Generator'
-        label = ttk.Label(master, text=msg, font='big')
-        label.pack(padx=4, pady=4)
-        msg = 'Create a new blank article in markdown\nor restructured text format.\n'
-        label2 = ttk.Label(master, text=msg)
-        label2.pack(padx=4, pady=4)
-        msg = f'Author: {article.__author__}'
-        label3 = ttk.Label(master, text=msg)
-        label3.pack(padx=4, pady=4)
-        return None
+    window = sg.Window("About", layout=layout, finalize=True)
+    window["website"].set_cursor(cursor="hand2")
+    while True:
+        event, values = window.read()
+        if event in (None, "OK"):
+            break
+        if event == "website":
+            webbrowser.open(window["website"].DisplayText)
+            break
+    window.close()
 

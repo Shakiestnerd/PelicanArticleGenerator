@@ -1,14 +1,19 @@
 import os
+import platform
+import subprocess
+import string
 import PySimpleGUI as sg
 from datetime import date
 import options
 from output import Output
+from about import about
 
 
 class UI:
     def __init__(self):
         super().__init__()
         self.options = options.UserOptions()
+        self.filename = None
         sg.theme("Reddit")  # please make your windows colorful
         label_size = (15, 1)
 
@@ -27,14 +32,31 @@ class UI:
         frame_layout = [
             [
                 sg.Radio(
-                    "Markdown", group_id="Type", default=True, size=label_size, key="md"
+                    "Markdown",
+                    group_id="Type",
+                    default=True,
+                    size=label_size,
+                    key="md",
+                    tooltip="Save the file in markdown format",
                 ),
-                sg.Radio("Restructured Text", group_id="Type", key="rst"),
+                sg.Radio(
+                    "Restructured Text",
+                    group_id="Type",
+                    key="rst",
+                    tooltip="Save the file in restructured text format",
+                ),
             ]
         ]
 
         frame_layout2 = [
-            [sg.Checkbox(" Recipe", auto_size_text=True, key="Is_Recipe"),]
+            [
+                sg.Checkbox(
+                    " Recipe",
+                    auto_size_text=True,
+                    key="Is_Recipe",
+                    tooltip="Include section for a food recipe",
+                ),
+            ]
         ]
 
         layout = [
@@ -47,6 +69,7 @@ class UI:
                     key="Folder",
                     enable_events=True,
                     disabled=True,
+                    tooltip="Choose your Pelican/content folder (Required)",
                 ),
                 sg.FolderBrowse(
                     button_text="...",
@@ -56,15 +79,27 @@ class UI:
             ],
             [
                 sg.Text("", size=label_size),
-                sg.Frame("Format", frame_layout, title_color="blue"),
+                sg.Frame(
+                    "Format", frame_layout, title_color="blue", tooltip="Output format"
+                ),
             ],
             [
                 sg.Text("Title:", size=label_size),
-                sg.Input(default_text="", key="Title", enable_events=True),
+                sg.Input(
+                    default_text="",
+                    key="Title",
+                    enable_events=True,
+                    tooltip="The article headline (Required)",
+                ),
             ],
             [
                 sg.Text("Slug:", size=label_size),
-                sg.Input(default_text="Slug Value", disabled=True, key="Slug"),
+                sg.Input(
+                    default_text="Slug Value",
+                    disabled=True,
+                    key="Slug",
+                    tooltip="Slug is used as the filename",
+                ),
             ],
             [
                 sg.Text("Date:", size=label_size),
@@ -72,34 +107,57 @@ class UI:
                     default_text=date.today().strftime("%Y-%m-%d"),
                     key="Date",
                     enable_events=True,
+                    tooltip="The date for the article",
                 ),
                 sg.CalendarButton(
                     "...", key="Date_Pick", target="Date", format="%Y-%m-%d"
                 ),
             ],
-            [sg.Text("Author(s):", size=label_size), sg.Input(key="Author")],
+            [
+                sg.Text("Author(s):", size=label_size),
+                sg.Input(key="Author", tooltip="Article author(s)"),
+            ],
             [
                 sg.Text("Status:", size=label_size),
-                sg.Combo(status_choices, default_value="draft", key="Status"),
+                sg.Combo(
+                    status_choices,
+                    default_value="draft",
+                    key="Status",
+                    tooltip="Initial status for the article",
+                ),
             ],
             [
                 sg.Text("Category:", size=label_size),
                 sg.Listbox(
-                    values=self.options.categories, key="Categories", size=(30, 6)
+                    values=self.options.categories,
+                    key="Categories",
+                    size=(30, 6),
+                    tooltip="Categories based on folder names (Required)",
                 ),
             ],
-            [sg.Text("Tags:", size=label_size), sg.Input(key="Tags")],
+            [
+                sg.Text("Tags:", size=label_size),
+                sg.Input(key="Tags", tooltip="Tags associated with this article"),
+            ],
             [
                 sg.Text("", size=label_size),
                 sg.Frame("Special Template", frame_layout2, title_color="blue"),
             ],
             [
                 sg.Text("Summary:", size=label_size),
-                sg.Multiline(size=(45, 3), key="Summary"),
+                sg.Multiline(
+                    size=(45, 3),
+                    key="Summary",
+                    tooltip="Summary is used for the 1st paragraph (Optional)",
+                ),
             ],
-            [sg.Button(button_text="Generate Article"),],
+            [
+                sg.Button(button_text="Generate Article", key="generate"),
+                sg.Button(button_text="Edit Article", key="edit", disabled=True),
+            ],
         ]
 
+        # key function that reads the layout and displays the UI on screen.
         window = sg.Window("Article Generator", layout)
 
         # Event dispatch handler
@@ -113,26 +171,36 @@ class UI:
                 if categories:
                     window["Categories"].update(categories)
             elif event in ("Title", "Date"):
-                slug = values["Date"] + "-" + values["Title"].lower().replace(" ", "-")
+                # strip out punctuation and replace spaces with dashes.
+                dummy = (
+                    "".join(
+                        ch for ch in values["Title"] if ch not in string.punctuation
+                    )
+                    .lower()
+                    .replace(" ", "-")
+                )
+                slug = values["Date"] + "-" + dummy
                 window["Slug"].update(slug)
             elif event == "About...":
-                sg.popup(
-                    "About Article Generator",
-                    "Version 0.1",
-                    "Author: Shakiestnerd",
-                    "http://www.canofworms.com",
-                    title="About",
-                )
+                about()
             elif event == "Documentation":
                 print("Documentation")
-            elif event == "Generate Article":
-                self.create_article(values)
+            elif event == "generate":
+                self.filename = self.create_article(values)
+                window["edit"].update(disabled=False)
+            elif event == "edit":
+                if self.filename:
+                    self.open_article(self.filename)
 
             print(event, values)
 
         window.close()
 
     def create_article(self, values):
+        """Validate the field values while populating the output object.
+        Then save the article file.  Should this method be part of the output 
+        object?
+        """
         art = Output()
 
         try:
@@ -142,8 +210,10 @@ class UI:
                 art.output_type = "md"
             else:
                 art.output_type = "rst"
-
-            art.title = values["Title"]
+            if values["Title"]:
+                art.title = values["Title"]
+            else:
+                raise ValueError("The title can not be blank.")
             art.slug = values["Slug"]
             art.date = values["Date"]
             art.author = values["Author"]
@@ -157,16 +227,22 @@ class UI:
             art.is_recipe = values["Is_Recipe"]
             art.base_folder = values["Folder"]
             art.full_file = os.path.join(
-                art.base_folder, art.category, art.filename, art.output_type
+                art.base_folder, art.category, art.filename + "." + art.output_type
             )
-            message = ["Create article file:", art.full_file]
+            message = f"Create article file:\n{art.full_file}"
             if sg.PopupYesNo(message, title="Generate Article?"):
                 art.save_article()
-
+                return art.full_file
+            else:
+                return None
         except ValueError as err:
-            sg.PopupError(err.args)
+            sg.PopupError(err.args[0])
+            return None
 
     def category_scan(self, folder):
+        """Search the selected content folder for sub-folders that meet the 
+        category criteria.
+        """
         cat_list = []
         if len(folder) == 0:
             sg.popup(
@@ -188,6 +264,15 @@ class UI:
                     if item not in ["images", "pages", "static"]:
                         cat_list.append(item)
         return cat_list
+
+    def open_article(self, filepath):
+
+        if platform.system() == "Darwin":  # macOS
+            subprocess.call(("open", filepath))
+        elif platform.system() == "Windows":  # Windows
+            os.startfile(filepath)
+        else:  # linux variants
+            subprocess.call(("xdg-open", filepath))
 
 
 if __name__ == "__main__":

@@ -52,4 +52,12 @@ Summary:
 ---Insert article here.
 ```
 
+### Notes
+
+To start the development virtual environment, use:
+
+```bash
+source venv\bin\activate
+```
+
 [1]: https://blog.getpelican.com/ "Main Pelican Web Site"
