@@ -6,6 +6,8 @@ This application creates article stubs for writing blog posts using Pelican.
 
 This application is currently under development.
 
+Documentation for Article Generator can be found at Read the Docs.
+
 ## What it does
 
 You run `article.py`, fill in a few fields on the form, click the "Create" button and you have an empty article file that you can use to write your blog post.
@@ -90,3 +92,4 @@ source_suffix = ['.rst', '.md']
 ```
 
 [1]: https://blog.getpelican.com/ "Main Pelican Web Site"
+[2]: 
