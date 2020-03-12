@@ -2,8 +2,12 @@
 Options
 *******
 
-The Options tab (4) is only used to set your database file location.  If the location is not set here, Stampede will use the folder where Stampede.exe is installed for the database file.
+When you generate a blog article using the tool, many of your selections are saved
+to an *articles.ini* file.  The next time you run the Article Generator application
+this file will be read and those values filled into the form for you.
 
-Use the button labelled **'...'** to display the folder open dialog box.  Select the desired location for the database file.
+The thinking is that your next article may reuse many of the same options.  So,
+the tool tries to help you out with that.
+
 
 

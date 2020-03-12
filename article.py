@@ -7,6 +7,7 @@ from datetime import date
 import options
 from output import Output
 from about import about
+from tag import tag
 
 
 class UI:
@@ -138,6 +139,7 @@ class UI:
             [
                 sg.Text("Tags:", size=label_size),
                 sg.Input(key="Tags", tooltip="Tags associated with this article"),
+                sg.Button("Show", key="Show"),
             ],
             [
                 sg.Text("", size=label_size),
@@ -191,6 +193,8 @@ class UI:
             elif event == "edit":
                 if self.filename:
                     self.open_article(self.filename)
+            elif event == "show":
+                window["Tags"].update(tag(self.options.favorite_tags))
 
             print(event, values)
 

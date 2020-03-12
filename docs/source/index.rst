@@ -5,10 +5,11 @@ Welcome to Article Generator
 :Date: |today|
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    getting_started
+   creating_articles
    options
    license
 
@@ -17,7 +18,10 @@ Welcome to the Article Generator documentation.
 Article Generator is a tool that creates article stubs for blog posts written
 in Pelican.  Yes, Article Generator is a terrible name.
 
-Use case:
+Use Cases
+=========
+
+Use Case 1:
 
 I want to write a new blog post for my Pelican based web-site.  In the past,
 I've kept a blank article saved on my hard drive.  When I write a new article,
@@ -26,7 +30,7 @@ a "File: Save As" to save the new article.  That's not too tough, but being
 a bonehead, I often overwrite my blank article with the new filled in article,
 or I save it to the wrong folder, or I get the date wrong, you get the idea.
 
-Use case 2:
+Use Case 2:
 
 If you have additional authors that are writing articles for your web site,
 they may not be highly technical folks that want to deal with the intricacies

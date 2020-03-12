@@ -60,4 +60,33 @@ To start the development virtual environment, use:
 source venv\bin\activate
 ```
 
+## Documentation
+
+Stored in docs folder.  (See Carol Willing talk from pycon 2018)
+
+Commands:
+
+```bash
+make build
+make clean
+
+python3 -m http.server
+```
+
+Open [http://localhost:8000/_build/html/index.html](http://localhost:8000/_build/html/index.html)
+
+To use markdown, use recommonmark
+
+```python
+import recommonmark.Parser
+
+# Add a source file parser for markdown
+source_parsers = {
+    '.md': 'recommonmark.parser.CommonMarkParser
+}
+
+# Add type of source files
+source_suffix = ['.rst', '.md']
+```
+
 [1]: https://blog.getpelican.com/ "Main Pelican Web Site"
