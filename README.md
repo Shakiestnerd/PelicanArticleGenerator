@@ -6,7 +6,7 @@ This application creates article stubs for writing blog posts using Pelican.
 
 This application is currently under development.
 
-Documentation for Article Generator can be found at Read the Docs.
+Documentation for Article Generator can be found at [Read the Docs](2).
 
 ## What it does
 
@@ -92,4 +92,4 @@ source_suffix = ['.rst', '.md']
 ```
 
 [1]: https://blog.getpelican.com/ "Main Pelican Web Site"
-[2]: 
+[2]: https://pelican-article-generator.readthedocs.io/en/latest/
