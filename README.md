@@ -62,6 +62,8 @@ To start the development virtual environment, use:
 source venv\bin\activate
 ```
 
+Look into using Versioneer to maintain the current version
+
 ## Documentation
 
 Stored in docs folder.  (See Carol Willing talk from pycon 2018)
@@ -84,7 +86,7 @@ import recommonmark.Parser
 
 # Add a source file parser for markdown
 source_parsers = {
-    '.md': 'recommonmark.parser.CommonMarkParser
+    '.md': 'recommonmark.parser.CommonMarkParser'
 }
 
 # Add type of source files

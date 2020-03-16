@@ -8,7 +8,7 @@ def about():
         [sg.Text("Version: 0.5")],
         [
             sg.Text(
-                "Create a new blank article in markdown\nor restructured text format.\n"
+                "Create a new blank src in markdown\nor restructured text format.\n"
             )
         ],
         [sg.Text("Author: Shakiestnerd")],

@@ -12,10 +12,10 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Python: Article",
+      "name": "Python: Run Article Generator",
       "type": "python",
       "request": "launch",
-      "program": "article.py",
+      "program": "run.py",
       "console": "integratedTerminal"
     }
   ]

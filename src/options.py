@@ -23,11 +23,11 @@ class UserOptions:
         config = configparser.ConfigParser()
         try:
             config.read(self.init_file)
-            self.base_folder = config["article"]["base_folder"]
-            self.author = config["article"]["author"]
-            self.categories = config["article"]["categories"].split(",")
-            self.favorite_tags = config["article"]["tags"].split(",")
-            self.default_type = config["article"]["default_type"]
+            self.base_folder = config["src"]["base_folder"]
+            self.author = config["src"]["author"]
+            self.categories = config["src"]["categories"].split(",")
+            self.favorite_tags = config["src"]["tags"].split(",")
+            self.default_type = config["src"]["default_type"]
         except KeyError:
             return
 
@@ -37,12 +37,12 @@ class UserOptions:
         config = configparser.ConfigParser()
         config_file = open(self.init_file, "w")
         # config.read('articles.ini')
-        config.add_section("article")
-        config.set("article", "base_folder", self.base_folder)
-        config.set("article", "author", self.author)
-        config.set("article", "tags", self.favorite_tags)
-        config.set("article", "categories", "|".join(self.categories))
-        config.set("article", "default_type", self.default_type)
+        config.add_section("src")
+        config.set("src", "base_folder", self.base_folder)
+        config.set("src", "author", self.author)
+        config.set("src", "tags", self.favorite_tags)
+        config.set("src", "categories", "|".join(self.categories))
+        config.set("src", "default_type", self.default_type)
         config.write(config_file)
         config_file.close()
 

@@ -4,16 +4,16 @@ import subprocess
 import string
 import PySimpleGUI as sg
 from datetime import date
-import options
-from output import Output
-from about import about
-from tag import tag
+from .options import UserOptions
+from .output import Output
+from .about import about
+from .tag import tag
 
 
 class UI:
     def __init__(self):
         super().__init__()
-        self.options = options.UserOptions()
+        self.options = UserOptions()
         self.filename = None
         sg.theme("Reddit")  # please make your windows colorful
         label_size = (15, 1)
@@ -62,7 +62,7 @@ class UI:
 
         layout = [
             [sg.Menu(menu_def, tearoff=False)],
-            [sg.Text("Create a new article", font=("Any", 12, "bold"))],
+            [sg.Text("Create a new src", font=("Any", 12, "bold"))],
             [
                 sg.Text("Content Folder:", size=label_size),
                 sg.Input(
@@ -90,7 +90,7 @@ class UI:
                     default_text="",
                     key="Title",
                     enable_events=True,
-                    tooltip="The article headline (Required)",
+                    tooltip="The src headline (Required)",
                 ),
             ],
             [
@@ -108,7 +108,7 @@ class UI:
                     default_text=date.today().strftime("%Y-%m-%d"),
                     key="Date",
                     enable_events=True,
-                    tooltip="The date for the article",
+                    tooltip="The date for the src",
                 ),
                 sg.CalendarButton(
                     "...", key="Date_Pick", target="Date", format="%Y-%m-%d"
@@ -124,7 +124,7 @@ class UI:
                     status_choices,
                     default_value="draft",
                     key="Status",
-                    tooltip="Initial status for the article",
+                    tooltip="Initial status for the src",
                 ),
             ],
             [
@@ -138,7 +138,7 @@ class UI:
             ],
             [
                 sg.Text("Tags:", size=label_size),
-                sg.Input(key="Tags", tooltip="Tags associated with this article"),
+                sg.Input(key="Tags", tooltip="Tags associated with this src"),
                 sg.Button("Show", key="Show"),
             ],
             [
@@ -193,8 +193,17 @@ class UI:
             elif event == "edit":
                 if self.filename:
                     self.open_article(self.filename)
-            elif event == "show":
-                window["Tags"].update(tag(self.options.favorite_tags))
+            elif event == "Show":
+                if self.options.base_folder:
+                    categories = window["Categories"].get_list_values()
+                    result = tag(
+                        self.options.favorite_tags, categories, self.options.base_folder
+                    )
+                    window["Tags"].update(", ".join(result))
+                else:
+                    sg.PopupOK(
+                        "Please select content folder first.", title="No Content folder"
+                    )
 
             print(event, values)
 
@@ -202,7 +211,7 @@ class UI:
 
     def create_article(self, values):
         """Validate the field values while populating the output object.
-        Then save the article file.  Should this method be part of the output 
+        Then save the src file.  Should this method be part of the output
         object?
         """
         art = Output()
@@ -233,7 +242,7 @@ class UI:
             art.full_file = os.path.join(
                 art.base_folder, art.category, art.filename + "." + art.output_type
             )
-            message = f"Create article file:\n{art.full_file}"
+            message = f"Create src file:\n{art.full_file}"
             if sg.PopupYesNo(message, title="Generate Article?"):
                 art.save_article()
                 return art.full_file
@@ -270,7 +279,7 @@ class UI:
         return cat_list
 
     def open_article(self, filepath):
-        """ Open the newly minted article in the default editor for your OS
+        """ Open the newly minted src in the default editor for your OS
         """
         if platform.system() == "Darwin":  # macOS
             subprocess.call(("open", filepath))

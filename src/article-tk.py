@@ -1,7 +1,7 @@
 """
-article.py
+src.py
 
-Create a new article.
+Create a new src.
 """
 
 import sys
@@ -37,7 +37,7 @@ author: ShakiestNerd
 
 
 class UI:
-    """Markdown article generator application user interface using tkinter"""
+    """Markdown src generator application user interface using tkinter"""
 
     def __init__(self, parent):
         self.parent = parent
@@ -74,7 +74,7 @@ class UI:
 
         # row 0
         row = 0
-        p1_label_title = ttk.Label(page1, text="Create new article:")
+        p1_label_title = ttk.Label(page1, text="Create new src:")
         p1_label_title.grid(column=1, row=row, padx=5, pady=5, sticky=W)
 
         p1_create = ttk.Button(page1, text="Create", command=self.create_article)
@@ -255,7 +255,7 @@ class UI:
         filename = self.p1_slug_value.get()
         folder = self.p1_cat_menu.get()
         ext = self.md_or_rst.get()
-        message = f"Create article file:\n{folder}/{filename}.{ext}?"
+        message = f"Create src file:\n{folder}/{filename}.{ext}?"
         if messagebox.askyesno("Proceed?", message):
             art = Output()
             art.output_type = self.md_or_rst.get()
