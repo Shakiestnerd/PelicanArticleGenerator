@@ -116,7 +116,11 @@ class UI:
             ],
             [
                 sg.Text("Author(s):", size=label_size),
-                sg.Input(key="Author", tooltip="Article author(s)"),
+                sg.Input(
+                    default_text=self.options.author,
+                    key="Author",
+                    tooltip="Article author(s)",
+                ),
             ],
             [
                 sg.Text("Status:", size=label_size),
@@ -171,6 +175,7 @@ class UI:
                 self.options.base_folder = values["Folder"]
                 categories = self.category_scan(self.options.base_folder)
                 if categories:
+                    self.options.categories = categories
                     window["Categories"].update(categories)
             elif event in ("Title", "Date"):
                 # strip out punctuation and replace spaces with dashes.
@@ -189,6 +194,7 @@ class UI:
                 print("Documentation")
             elif event == "generate":
                 self.filename = self.create_article(values)
+                self.options.save_config()
                 window["edit"].update(disabled=False)
             elif event == "edit":
                 if self.filename:
@@ -196,7 +202,7 @@ class UI:
             elif event == "Show":
                 if self.options.base_folder:
                     categories = window["Categories"].get_list_values()
-                    result = tag(
+                    result, self.options.favorite_tags = tag(
                         self.options.favorite_tags, categories, self.options.base_folder
                     )
                     window["Tags"].update(", ".join(result))
@@ -245,6 +251,7 @@ class UI:
             message = f"Create src file:\n{art.full_file}"
             if sg.PopupYesNo(message, title="Generate Article?"):
                 art.save_article()
+                self.update_config(values)
                 return art.full_file
             else:
                 return None
@@ -287,6 +294,19 @@ class UI:
             os.startfile(filepath)
         else:  # linux variants
             subprocess.call(("xdg-open", filepath))
+
+    def update_config(self, values):
+        # self.options.base_folder = ""  # should be filled in already
+        self.options.author = values["Author"]
+        # self.options.categories = []
+        self.options.last_tags = values["Tags"]
+        if self.options.favorite_tags == "":
+            self.options.favorite_tags = self.options.last_tags
+        if values["md"]:
+            self.options.default_type = "md"
+        else:
+            self.options.default_type = "rst"
+        self.options.save_config()
 
 
 if __name__ == "__main__":

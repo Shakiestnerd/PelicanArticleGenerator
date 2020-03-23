@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-import options
+from .options import UserOptions
 
 
 class Preferences:

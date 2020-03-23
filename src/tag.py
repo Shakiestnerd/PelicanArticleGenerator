@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import os
 
 
 def tag(tags, cats, folder):
@@ -43,7 +44,8 @@ def tag(tags, cats, folder):
                 print("No tags selected.")
             break
         elif event == "Scan":
-            tag_scan(folder, cats)
+            tag_list = tag_scan(folder, cats)
+            window["Tag_List"].update(tag_list)
         elif event == "Add":
             tag_add(values["Tag"], window["Tag_List"].get_list_values())
             window["Tag_List"].update(tag_list)
@@ -51,7 +53,7 @@ def tag(tags, cats, folder):
 
     window.close()
     print(results)
-    return results
+    return results, tag_list
 
 
 def tag_add(value, tags):
@@ -60,9 +62,22 @@ def tag_add(value, tags):
 
 
 def tag_scan(folder, categories):
+    """ Scan all existing blog articles and extract the tags """
     print(folder)
+    results = []
     for category in categories:
         print(category)
+        path = os.path.join(folder, category)
+        blogfiles = [
+            f for f in os.listdir(path) if f.endswith(".rst") or f.endswith(".md")
+        ]
+        for file in blogfiles:
+            with open(os.path.join(path, file)) as f:
+                for line in f.readlines():
+                    if line[:5] == "Tags:":
+                        results += [x.strip() for x in line[6:].split(",")]
+
+    return sorted(set(results))
 
 
 if __name__ == "__main__":
