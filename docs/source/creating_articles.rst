@@ -87,7 +87,7 @@ Multiple tags can be included; just separate them with commas.
 The tags play a key role especially if you have a Tag Cloud configured in your Pelican
 set up.
 
-The "**Show**" button is used to pop up a check list of tags.
+The "**Show**" button is used to pop up the tag handling dialog.
 
 Special Template
 ================

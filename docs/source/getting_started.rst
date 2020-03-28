@@ -5,9 +5,12 @@ Getting Started
 Features
 ========
 
-Article Generator creates blank blog articles with some basic elements filled in for you on a `Pelican`_ static web site.
+Article Generator creates blank blog articles with some basic elements filled in
+for you on a `Pelican`_ static web site.
 
 The articles are generated in your choice of `Markdown`_ or `Restructured Text`_ format.
+
+More about `Mastering Markdown`_.
 
 It fills in a selection of tags into the article file based on your input in the
 "Create a new article" form.  
