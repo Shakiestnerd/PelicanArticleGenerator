@@ -3,6 +3,7 @@ import platform
 import subprocess
 import string
 import PySimpleGUI as sg
+import webbrowser
 from datetime import date
 from .options import UserOptions
 from .output import Output
@@ -12,6 +13,8 @@ from .tag import tag
 
 class UI:
     def __init__(self):
+        """ Load the user interface
+        """
         super().__init__()
         self.options = UserOptions()
         self.filename = None
@@ -142,7 +145,11 @@ class UI:
             ],
             [
                 sg.Text("Tags:", size=label_size),
-                sg.Input(key="Tags", tooltip="Tags associated with this src"),
+                sg.Input(
+                    key="Tags",
+                    tooltip="Tags associated with this src",
+                    default_text=",".join(self.options.last_tags),
+                ),
                 sg.Button("Show", key="Show"),
             ],
             [
@@ -191,7 +198,9 @@ class UI:
             elif event == "About...":
                 about()
             elif event == "Documentation":
-                print("Documentation")
+                browse = webbrowser.get()
+                url = "https://pelican-article-generator.readthedocs.io/en/latest/index.html"
+                browse.open_new_tab(url=url)
             elif event == "generate":
                 self.filename = self.create_article(values)
                 self.options.save_config()

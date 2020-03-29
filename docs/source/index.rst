@@ -6,10 +6,10 @@ Welcome to Article Generator
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    getting_started
    creating_articles
+   tags
    options
    license
 

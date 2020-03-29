@@ -6,7 +6,7 @@ Launch the Article Generator application with the command:
 
 .. code::
 
-    python article.python
+    python article.py
 
 .. image:: ./_static/MainScreen.png
 

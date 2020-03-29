@@ -66,18 +66,20 @@ Look into using Versioneer to maintain the current version
 
 ## Documentation
 
-Stored in docs folder.  (See Carol Willing talk from pycon 2018)
+Stored in docs folder.  
+
+[See Carol Willing talk from pycon 2018](https://www.youtube.com/watch?v=0ROZRNZkPS8)
 
 Commands:
 
 ```bash
-make build
 make clean
+make build
 
 python3 -m http.server
 ```
 
-Open [http://localhost:8000/_build/html/index.html](http://localhost:8000/_build/html/index.html)
+Open [http://localhost:8000/docs/build/html/index.html](http://localhost:8000/docs/build/html/index.html)
 
 To use markdown, use recommonmark
 
@@ -93,5 +95,10 @@ source_parsers = {
 source_suffix = ['.rst', '.md']
 ```
 
+Also using the "sphinx_rtd_theme" theme.  See [Read the Docs](3) for information.
+
+Thank you
+
 [1]: https://blog.getpelican.com/ "Main Pelican Web Site"
 [2]: https://pelican-article-generator.readthedocs.io/en/latest/
+[3]: https://sphinx-rtd-theme.readthedocs.io/en/latest/installing.html

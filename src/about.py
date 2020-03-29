@@ -3,14 +3,12 @@ import webbrowser
 
 
 def about():
+    """An about box to let people know the underlying information about the application.
+    """
     layout = [
         [sg.Text("Article Generator", font=("Arial", 12), justification="center")],
         [sg.Text("Version: 0.5")],
-        [
-            sg.Text(
-                "Create a new blank src in markdown\nor restructured text format.\n"
-            )
-        ],
+        [sg.Text("Create a new blank src in markdown\nor restructured text format.\n")],
         [sg.Text("Author: Shakiestnerd")],
         [sg.Text("License: MIT License")],
         [
@@ -35,4 +33,3 @@ def about():
             webbrowser.open(window["website"].DisplayText)
             break
     window.close()
-
