@@ -1,6 +1,5 @@
 """Save and retrieve the user options from articles.ini."""
 import configparser
-import os
 
 
 class UserOptions:

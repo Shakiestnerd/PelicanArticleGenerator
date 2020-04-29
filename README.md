@@ -2,11 +2,11 @@
 
 This application creates article stubs for writing blog posts using Pelican.
 
-[Pelican](1) is a static web site generator.
+[Pelican](https://blog.getpelican.com/) is a static web site generator.
 
 This application is currently under development.
 
-Documentation for Article Generator can be found at [Read the Docs](2).
+Documentation for Article Generator can be found at [Read the Docs](https://pelican-article-generator.readthedocs.io/en/latest/).
 
 ## What it does
 
@@ -95,10 +95,8 @@ source_parsers = {
 source_suffix = ['.rst', '.md']
 ```
 
-Also using the "sphinx_rtd_theme" theme.  See [Read the Docs](3) for information.
+Also using the "sphinx_rtd_theme" theme.  See [Read the Docs](https://sphinx-rtd-theme.readthedocs.io/en/latest/installing.html) 
+for information.
 
 Thank you
 
-[1]: https://blog.getpelican.com/ "Main Pelican Web Site"
-[2]: https://pelican-article-generator.readthedocs.io/en/latest/
-[3]: https://sphinx-rtd-theme.readthedocs.io/en/latest/installing.html

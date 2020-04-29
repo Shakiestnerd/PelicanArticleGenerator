@@ -5,10 +5,10 @@ import string
 import PySimpleGUI as sg
 import webbrowser
 from datetime import date
-from .options import UserOptions
-from .output import Output
-from .about import about
-from .tag import tag
+from options import UserOptions
+from output import Output
+from about import about
+from tag import tag
 
 
 class UI:
@@ -171,7 +171,7 @@ class UI:
         ]
 
         # key function that reads the layout and displays the UI on screen.
-        window = sg.Window("Article Generator", layout)
+        window = sg.Window("Article Generator", layout, font=("Ubuntu", 15))
 
         # Event dispatch handler
         while True:
