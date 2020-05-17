@@ -6,6 +6,6 @@ setup(
     packages=find_packages(exclude=["tests", "tests.*"]),
     install_required=["PySimpleGUI==4.16.0"],
     test_suite="tests",
-    entry_points={"console_scripts": ["run=src.article:UI"]},
+    entry_points={"console_scripts": ["run=article.article:UI"]},
 )
 

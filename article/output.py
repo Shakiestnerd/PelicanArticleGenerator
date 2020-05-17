@@ -53,7 +53,7 @@ class Output:
             content.append("Add closing remarks here\n\n")
             content.append('[1]: ../images/_filename_ "_Image Description_"\n')
         else:
-            content.append("Insert markdown src here.\n")
+            content.append("Insert markdown article here.\n")
         return content
 
     def format_rst(self):
@@ -73,5 +73,5 @@ class Output:
             content.append("-------\n\n")
             content.append("Add closing remarks here\n\n")
         else:
-            content.append("Insert restructured text src here.\n")
+            content.append("Insert restructured text article here.\n")
         return content

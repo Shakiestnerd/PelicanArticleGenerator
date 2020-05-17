@@ -1,4 +1,4 @@
-from src import article
+from article import article
 
 
 if __name__ == "__main__":
