@@ -19,7 +19,7 @@ pathspec==0.7.0
 pbr==5.4.4
 pluggy==0.13.1
 py==1.8.1
-Pygments==2.5.2
+Pygments==2.7.4
 pyparsing==2.4.6
 PySimpleGUI==4.16.0
 pytest==5.3.5
