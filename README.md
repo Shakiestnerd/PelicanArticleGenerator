@@ -2,15 +2,17 @@
 
 This application creates article stubs for writing blog posts using Pelican.
 
-[Pelican](https://blog.getpelican.com/) is a static web site generator.
+[Pelican](https://blog.getpelican.com/) is a static website generator.
 
-This application is currently under development.
+This application has reached the point where I am using it to generate article stubs for my blog.
 
 Documentation for Article Generator can be found at [Read the Docs](https://pelican-article-generator.readthedocs.io/en/latest/).
 
 ## What it does
 
-You run `article.py`, fill in a few fields on the form, click the "Create" button and you have an empty article file that you can use to write your blog post.
+You run `article.py`, fill in a few fields on the form, click the "Create" button. This creates an empty article file you can use to write your blog post.
+
+![Application](docs/source/_static/Article_Generator.png)
 
 This allows you to write out several article stubs and once, saving you time and helping you to plan your content more effectively.
 
@@ -19,7 +21,7 @@ This allows you to write out several article stubs and once, saving you time and
 ### Categories
 
 1. You are using the Pelican static site generator.
-2. Article categories are folder names inside of your content folder.
+2. Article categories are folder names inside the content folder.
 3. The folders **'images', 'pages', and 'static'**, if found in your content folder, are ignored and not considered categories.
 
 ### Files
@@ -62,13 +64,15 @@ To start the development virtual environment, use:
 source venv\bin\activate
 ```
 
+Note to self:
+
 Look into using Versioneer to maintain the current version
 
 ## Documentation
 
 Stored in docs folder.  
 
-[See Carol Willing talk from pycon 2018](https://www.youtube.com/watch?v=0ROZRNZkPS8)
+[See Carol Willing talk from Pycon 2018](https://www.youtube.com/watch?v=0ROZRNZkPS8)
 
 Commands:
 
@@ -95,7 +99,7 @@ source_parsers = {
 source_suffix = ['.rst', '.md']
 ```
 
-Also using the "sphinx_rtd_theme" theme.  See [Read the Docs](https://sphinx-rtd-theme.readthedocs.io/en/latest/installing.html) 
+Also using the "sphinx_rtd_theme" theme.  See [Read the Docs](https://sphinx-rtd-theme.readthedocs.io/en/latest/installing.html)
 for information.
 
 Thank you

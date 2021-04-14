@@ -30,7 +30,7 @@ class UI:
         # ------ Menu Definition ------ #
         menu_def = [
             ["&File", ["E&xit"]],
-            ["&Help", ["&Documentation", "&About..."],],
+            ["&Help", ["&Documentation", "&About..."], ],
         ]
 
         frame_layout = [
@@ -189,9 +189,7 @@ class UI:
                 dummy = (
                     "".join(
                         ch for ch in values["Title"] if ch not in string.punctuation
-                    )
-                    .lower()
-                    .replace(" ", "-")
+                    ).lower().replace(" ", "-")
                 )
                 slug = values["Date"] + "-" + dummy
                 window["Slug"].update(slug)
@@ -248,7 +246,7 @@ class UI:
             if values["Categories"]:
                 art.category = values["Categories"][0]
             else:
-                raise ValueError("Select a category from the list.")
+                raise ValueError("Choose a category from the list.")
             art.tags = values["Tags"]
             art.status = values["Status"]
             art.summary = values["Summary"].strip()
@@ -268,7 +266,8 @@ class UI:
             sg.PopupError(err.args[0])
             return None
 
-    def category_scan(self, folder):
+    @staticmethod
+    def category_scan(folder):
         """Search the selected content folder for sub-folders that meet the 
         category criteria.
         """
@@ -294,7 +293,8 @@ class UI:
                         cat_list.append(item)
         return cat_list
 
-    def open_article(self, filepath):
+    @staticmethod
+    def open_article(filepath):
         """ Open the newly minted article in the default editor for your OS
         """
         if platform.system() == "Darwin":  # macOS

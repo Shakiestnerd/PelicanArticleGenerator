@@ -28,8 +28,8 @@ class Dialog(tk.Toplevel):
 
         self.protocol("WM_DELETE_WINDOW", self.cancel)
 
-        self.geometry("+%d+%d" % (parent.winfo_rootx()+50,
-                                  parent.winfo_rooty()+50))
+        self.geometry("+%d+%d" % (parent.winfo_rootx() + 50,
+                                  parent.winfo_rooty() + 50))
 
         self.initial_focus.focus_set()
 
@@ -68,7 +68,7 @@ class Dialog(tk.Toplevel):
     def ok(self, event=None):
 
         if not self.validate():
-            self.initial_focus.focus_set() # put focus back
+            self.initial_focus.focus_set()  # put focus back
             return
 
         self.withdraw()
@@ -89,8 +89,8 @@ class Dialog(tk.Toplevel):
 
     def validate(self):
 
-        return 1 # override
+        return 1  # override
 
     def apply(self):
 
-        pass # override
+        pass  # override

@@ -1,10 +1,10 @@
 import PySimpleGUI as sg
-from .options import UserOptions
+from article.options import UserOptions
 
 
 class Preferences:
     def __init__(self, theme="Light Brown 1"):
-        self.options = options.UserOptions()
+        self.options = UserOptions()
         sg.theme(new_theme=theme)
         label_size = (18, 1)
         layout = [

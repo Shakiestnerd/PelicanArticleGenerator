@@ -5,8 +5,6 @@ from typing import List
 
 def tag(tags, cats, folder):
     """Yes, this is the function that displays the tag dialog box."""
-    tag_list = []
-    check_layout = []
     results = []
     if type(tags) is str:
         tag_list = sorted([item.strip() for item in tags.split(",")])

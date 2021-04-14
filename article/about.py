@@ -13,7 +13,7 @@ def about():
         [sg.Text("License: MIT License")],
         [
             sg.Text(
-                "http://www.canofworms.com",
+                "https://www.canofworms.com",
                 key="website",
                 font=("All", 10, "underline"),
                 text_color="blue",
